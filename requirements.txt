@@ -1,0 +1,6 @@
+py-ibkr
+yfinance
+pydantic
+requests
+pytest
+python-dotenv
