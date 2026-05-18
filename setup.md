@@ -53,6 +53,10 @@ The project uses `python-dotenv` to load secrets from a `.env` file. We have pro
     1. Sign up for a free tier account at [Financial Modeling Prep](https://site.financialmodelingprep.com/).
     2. Retrieve your API key from the dashboard. This acts as a fallback for deep U.S. equity fundamentals.
 
+*   **`GEMINI_API_KEY`**:
+    1. Go to [Google AI Studio](https://aistudio.google.com/).
+    2. Sign in and create a new API Key. This will power the Analyst, Critic, and Controller agents.
+
 *   **`GMAIL_APP_PASSWORD`**:
     1. Go to your Google Account > Security.
     2. Ensure 2-Step Verification is turned on.

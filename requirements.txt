@@ -7,3 +7,4 @@ python-dotenv
 pydantic-ai
 google-genai
 langgraph
+jinja2
