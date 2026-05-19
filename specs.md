@@ -15,10 +15,10 @@ To build a read-only, autonomous financial analysis pipeline that monitors a sat
 **Rationale:** `yfinance` provides completely free, extensive coverage for non-yielding commodities (e.g., Gold, Crude Oil) and global ETFs, which are heavily restricted on FMP's free tier. FMP is retained for reliable historical SEC structured data where applicable.
 **Discarded Alternative:** Exclusive reliance on FMP (too restrictive for commodities on the free tier) or custom scraping scripts.
 
-### 3. Portfolio Ingestion: py-ibkr
-**Decision:** The system integrates the Interactive Brokers Flex Web Service utilizing the `py-ibkr` Python library.
-**Rationale:** `py-ibkr` is a modern, actively maintained library built on Pydantic. It enforces strict type checking and data validation, safely handling formatting anomalies (e.g., locale-specific comma separators) inherent in IBKR's XML/CSV exports.
-**Discarded Alternative:** Custom HTTP polling with naive CSV parsing (too brittle), `ibflex` (legacy), or live IB Gateway socket connection (overkill for a weekly read-only report).
+### 3. Portfolio Ingestion: Native HTTP (requests) + Pydantic Validation
+**Decision:** The system utilizes Python's native `requests` library to directly interact with the Interactive Brokers Flex Web Service, requesting and parsing a CSV format. A local caching layer (`.ibkr_cache.csv`) is implemented to provide rate-limit resilience.
+**Rationale:** IBKR Flex Queries are notoriously prone to aggressive rate-limiting (`ErrorCode 1001`). Implementing a custom polling loop allows for graceful fallback to a local cache, ensuring the weekly cron job never crashes due to temporary IBKR timeouts. By pairing the standard `csv` parser with our strict Pydantic `PortfolioItem` model, we achieve the exact same robust type-checking and data validation without relying on incomplete third-party wrappers.
+**Discarded Alternative:** `py-ibkr` (It only supports `Trades` and `CashTransactions`, lacking the necessary `OpenPositions` model, and strictly expects XML, failing on CSVs), `ibflex` (legacy XML parser, overkill when CSV is available), or live IB Gateway socket connection (requires a running daemon, breaking the serverless/cron architecture).
 
 ### 4. Agent Tooling and Validation: Pydantic AI
 **Decision:** All Large Language Model (LLM) interactions are governed by Pydantic AI.

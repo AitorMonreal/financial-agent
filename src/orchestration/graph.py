@@ -51,6 +51,8 @@ def node_valuation(state: AgentState) -> AgentState:
     asset_class = state["asset"].asset_class
     
     if asset_class == "STK":
+        # TODO: Replace these hardcoded placeholders with live FMP/yfinance data
+        # These are currently hardcoded to 100.0, resulting in static valuations across assets
         fcf = 100.0
         wacc = 0.08
         term_growth = 0.03

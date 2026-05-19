@@ -1,0 +1,3 @@
+ClientAccountID,Symbol,Description,Quantity,MarkPrice,CostBasisPrice,CostBasisMoney,PositionValue,FifoPnlUnrealized,PercentOfNAV,AssetClass,CurrencyPrimary,ISIN,CUSIP
+U123,AAPL,Apple Inc,10,150,120,1200,1500,300,10,STK,USD,,
+U123,GC=F,Gold,1,2000,1800,1800,2000,200,5,CMDTY,USD,,

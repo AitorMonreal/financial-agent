@@ -6,16 +6,26 @@ class TestIBKRClient(unittest.TestCase):
     def setUp(self):
         self.client = IBKRClient(token="fake_token", query_id="fake_query_id")
 
-    @patch('src.connectors.ibkr_client.IBKRClient.fetch_portfolio')
-    def test_fetch_portfolio_returns_parsed_items(self, mock_fetch):
+    @patch('src.connectors.ibkr_client.requests.get')
+    def test_fetch_portfolio_returns_parsed_items(self, mock_get):
         # Arrange
-        mock_fetch.return_value = [
-            PortfolioItem(symbol="AAPL", assetCategory="STK", position=10.0, costBasisPrice=150.0, currency="USD"),
-            PortfolioItem(symbol="GC=F", assetCategory="CMDTY", position=1.0, costBasisPrice=2000.0, currency="USD")
-        ]
+        mock_send_response = MagicMock()
+        mock_send_response.text = '''<FlexStatementResponse>
+            <Status>Success</Status>
+            <ReferenceCode>12345</ReferenceCode>
+            <Url>https://test.interactivebrokers.com</Url>
+        </FlexStatementResponse>'''
+        
+        mock_poll_response = MagicMock()
+        mock_poll_response.text = '''ClientAccountID,Symbol,Description,Quantity,MarkPrice,CostBasisPrice,CostBasisMoney,PositionValue,FifoPnlUnrealized,PercentOfNAV,AssetClass,CurrencyPrimary,ISIN,CUSIP
+U123,AAPL,Apple Inc,10,150,120,1200,1500,300,10,STK,USD,,
+U123,GC=F,Gold,1,2000,1800,1800,2000,200,5,CMDTY,USD,,'''
+        
+        mock_get.side_effect = [mock_send_response, mock_poll_response]
 
         # Act
-        result = self.client.fetch_portfolio()
+        with patch('time.sleep', return_value=None):
+            result = self.client.fetch_portfolio()
 
         # Assert
         self.assertEqual(len(result), 2)
@@ -25,6 +35,7 @@ class TestIBKRClient(unittest.TestCase):
         self.assertEqual(aapl.ticker, "AAPL")
         self.assertEqual(aapl.asset_class, "STK")
         self.assertEqual(aapl.quantity, 10.0)
+        self.assertEqual(aapl.cost_basis, 120.0)
         
         gold = result[1]
         self.assertEqual(gold.ticker, "GC=F")

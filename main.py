@@ -24,14 +24,7 @@ def main():
     else:
         from src.connectors.ibkr_client import IBKRClient, PortfolioItem
         client = IBKRClient(token, query_id)
-        try:
-            portfolio = client.fetch_portfolio()
-        except NotImplementedError:
-            print("Warning: IBKR module missing. Simulating for dev purposes.")
-            portfolio = [
-                PortfolioItem(symbol="AAPL", assetCategory="STK", position=10.0, costBasisPrice=120.0, currency="USD"),
-                PortfolioItem(symbol="GC=F", assetCategory="CMDTY", position=1.0, costBasisPrice=2000.0, currency="USD")
-            ]
+        portfolio = client.fetch_portfolio()
         
     print(f"Fetched {len(portfolio)} assets from portfolio.")
     
