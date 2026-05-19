@@ -1,11 +1,15 @@
 import os
 from dotenv import load_dotenv
+
+load_dotenv('.env.local')
+if "GEMINI_API_KEY" in os.environ and "GOOGLE_API_KEY" not in os.environ:
+    os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
+
 from src.orchestration.graph import build_graph
 from src.delivery.email_service import generate_html_report, send_email_report
 
 def main():
     print("Initializing Satellite Portfolio AI Engine...")
-    load_dotenv()
     
     token = os.environ.get("IBKR_FLEX_TOKEN")
     query_id = os.environ.get("IBKR_FLEX_QUERY_ID")
@@ -18,9 +22,16 @@ def main():
             PortfolioItem(symbol="GC=F", assetCategory="CMDTY", position=1.0, costBasisPrice=2000.0, currency="USD")
         ]
     else:
-        from src.connectors.ibkr_client import IBKRClient
+        from src.connectors.ibkr_client import IBKRClient, PortfolioItem
         client = IBKRClient(token, query_id)
-        portfolio = client.fetch_portfolio()
+        try:
+            portfolio = client.fetch_portfolio()
+        except NotImplementedError:
+            print("Warning: IBKR module missing. Simulating for dev purposes.")
+            portfolio = [
+                PortfolioItem(symbol="AAPL", assetCategory="STK", position=10.0, costBasisPrice=120.0, currency="USD"),
+                PortfolioItem(symbol="GC=F", assetCategory="CMDTY", position=1.0, costBasisPrice=2000.0, currency="USD")
+            ]
         
     print(f"Fetched {len(portfolio)} assets from portfolio.")
     

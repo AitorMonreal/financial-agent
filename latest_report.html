@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-glow: #38bdf8;
+            --accent-pink: #ec4899;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            background-image: radial-gradient(circle at top right, rgba(56,189,248,0.15), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(236,72,153,0.15), transparent 40%);
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-glow), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+        .card-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .ticker {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        .price {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--accent-glow);
+        }
+        .summary {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            background: rgba(0,0,0,0.2);
+            padding: 16px;
+            border-radius: 12px;
+        }
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Satellite Portfolio Insights</h1>
+            <p style="color: var(--text-muted); margin-top: 8px;">Weekly AI Valuation & Macro Analysis</p>
+        </div>
+        
+        
+        <div class="card" style="animation-delay: 0.0s;">
+            <div class="card-title">
+                <div class="ticker">AAPL</div>
+                <div class="price">$297.84</div>
+            </div>
+            
+            <div class="summary">
+                AAPL's median intrinsic value of $2248.68 is significantly higher than its current price of $297.84. This suggests that the asset is currently undervalued and may have substantial upside potential.
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Asset Class</span>
+                    <span class="stat-value">STK</span>
+                </div>
+                
+                
+                <div class="stat-item">
+                    <span class="stat-label">Intrinsic Value (p50)</span>
+                    <span class="stat-value" style="color: #4ade80">
+                        $2248.68
+                    </span>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+        
+        <div class="card" style="animation-delay: 0.15s;">
+            <div class="card-title">
+                <div class="ticker">GC=F</div>
+                <div class="price">$4570.80</div>
+            </div>
+            
+            <div class="summary">
+                The current price of GC=F is 4570.80. Given a median intrinsic value of 0.0, the asset appears significantly overvalued at its current price.
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Asset Class</span>
+                    <span class="stat-value">CMDTY</span>
+                </div>
+                
+                
+                
+                
+                <div class="stat-item">
+                    <span class="stat-label">Macro Regime</span>
+                    <span class="stat-value" style="color: #c084fc;">Distribution</span>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+</body>
+</html>

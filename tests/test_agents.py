@@ -11,7 +11,7 @@ class TestAgents(unittest.TestCase):
     def test_run_equity_analysis(self, mock_run_sync):
         # Arrange
         mock_result = MagicMock()
-        mock_result.data = ThesisExtraction(sentiment_score=0.01, key_drivers=["Revenue growth"])
+        mock_result.output = ThesisExtraction(sentiment_score=0.01, key_drivers=["Revenue growth"])
         mock_run_sync.return_value = mock_result
         
         # Act
@@ -25,7 +25,7 @@ class TestAgents(unittest.TestCase):
     def test_run_macro_analysis(self, mock_run_sync):
         # Arrange
         mock_result = MagicMock()
-        mock_result.data = MacroRegimeExtraction(central_bank_demand_score=0.8, fiat_debasement_score=0.7)
+        mock_result.output = MacroRegimeExtraction(central_bank_demand_score=0.8, fiat_debasement_score=0.7)
         mock_run_sync.return_value = mock_result
         
         # Act
@@ -39,7 +39,7 @@ class TestAgents(unittest.TestCase):
     def test_run_critic_review_approved(self, mock_run_sync):
         # Arrange
         mock_result = MagicMock()
-        mock_result.data = CriticFeedback(approved=True, reasoning="Conservative enough.", corrected_sentiment_score=0.0)
+        mock_result.output = CriticFeedback(approved=True, reasoning="Conservative enough.", corrected_sentiment_score=0.0)
         mock_run_sync.return_value = mock_result
         
         analyst_output = ThesisExtraction(sentiment_score=0.01, key_drivers=["x"])
@@ -55,7 +55,7 @@ class TestAgents(unittest.TestCase):
     def test_generate_summary(self, mock_run_sync):
         # Arrange
         mock_result = MagicMock()
-        mock_result.data = SummaryReport(summary="AAPL is undervalued. Hold.")
+        mock_result.output = SummaryReport(summary="AAPL is undervalued. Hold.")
         mock_run_sync.return_value = mock_result
         
         # Act
